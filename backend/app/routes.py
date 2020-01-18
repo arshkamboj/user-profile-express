@@ -67,6 +67,26 @@ def login():
     return result
 
 
+@app.route('/users/updateProfile', methods=['POST'])
+@token_required
+def updateProfile(current_user):
+    form = RegisterForm(csrf_enabled=False)
+    user = Users.query.filter_by(publicId = current_user.publicId).first()
+    if not user:
+        return jsonify({'ok': 'False', 'error': 'Could not update profile. Email Id does not exist. Please register'})
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(request.get_json()['password']).decode('utf-8')
+        user.password=hashed_password
+        user.firstName=form.firstName.data
+        user.lastName=form.lastName.data
+        print(user)
+        db.session.add(user)
+        db.session.commit()
+        result = {'email': form.email.data + ' user profile updated'}
+        return jsonify({'ok': 'True','result': result})
+    return jsonify({'ok': 'False', 'error': form.errors})
+
+
 @app.route('/users/getProfileInformation')
 @token_required
 def getProfileInformation(current_user):
@@ -94,9 +114,11 @@ def getallusers(current_user):
 @token_required
 def upload(current_user):
     try:
-        if request.method == 'POST' and 'photo' in request.files:
-            filename = photos.save(request.files['photo'])
+        if request.method == 'POST' and 'profileImage' in request.files:
+            filename = photos.save(request.files['profileImage'])
+            print(filename)
             imageLocation = ProfileImage(publicId = current_user.publicId, imageLocation = filename)
+            #imageLocation = ProfileImage(publicId = 'b028fad8-b9db-43de-adc6-11a514be2ac5', imageLocation = filename)
             db.session.add(imageLocation)
             db.session.commit()
             return jsonify({'ok' :'True', 'filename' : filename})

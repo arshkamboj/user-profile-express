@@ -19,6 +19,7 @@ flask-bcrypt = "*"
 pymysql = "*"
 uuid = "*"
 flask-uploads = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.7"

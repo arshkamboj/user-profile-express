@@ -5,6 +5,7 @@ export const userService = {
   register,
   getProfileInformation,
   uploadUserProfileImage,
+  updateProfile,
   getAll
 }
 
@@ -41,6 +42,26 @@ function register (firstName, lastName, email, password) {
   }
 
   return fetch(`/users/register`, requestOptions)
+    .then(handleResponse)
+    .then(user => {
+      // registration successful if there's a user in the response
+      if (user) {
+      }
+
+      return user
+    })
+}
+
+function updateProfile (firstName, lastName, email, password) {
+  const local = localStorage.user
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json',
+      'token': JSON.parse(local).token},
+    body: JSON.stringify({ firstName, lastName, email, password })
+  }
+
+  return fetch(`/users/updateProfile`, requestOptions)
     .then(handleResponse)
     .then(user => {
       // registration successful if there's a user in the response

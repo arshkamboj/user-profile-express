@@ -33,7 +33,7 @@ class Users(db.Model):
         self.password = password
 
     def __repr__(self):
-        return '<User %r>' % (self.email)
+        return '<User %r %r>' % (self.email, self.lastName)
 
 
 class ProfileImage(db.Model):
