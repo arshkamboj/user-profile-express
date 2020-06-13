@@ -8,7 +8,8 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 
 # MySQL configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost:3306/users'
+app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///users.db'
+#'mysql+pymysql://root:root@localhost:3306/users'
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 app.config['SECRET_KEY'] = 'mysecretkey'
 
@@ -21,3 +22,4 @@ ma = Marshmallow(app)
 bcrypt = Bcrypt(app)
 
 from . import routes
+

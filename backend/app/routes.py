@@ -3,11 +3,11 @@ from . import app, bcrypt
 import uuid, jwt, datetime
 from functools import wraps
 from .models import RegisterForm, LoginForm, ProfileImage, Users, db, userSchema, usersSchema
-from flask_uploads import UploadSet, configure_uploads, IMAGES
+#from flask_uploads import UploadSet, configure_uploads, IMAGES
 
-app.config['UPLOADED_PHOTOS_DEST'] = "images"
-photos = UploadSet('photos', IMAGES)
-configure_uploads(app, photos)
+#app.config['UPLOADED_PHOTOS_DEST'] = "images"
+#photos = UploadSet('photos', IMAGES)
+#configure_uploads(app, photos)
 
 def token_required(f):
     @wraps(f)
@@ -109,7 +109,7 @@ def getallusers(current_user):
     except:
         return jsonify({'message': 'Server was unable to handle the request'}), 500
 
-
+'''
 @app.route('/users/profileImage/upload', methods=['GET', 'POST'])
 @token_required
 def upload(current_user):
@@ -125,7 +125,7 @@ def upload(current_user):
         return jsonify({'ok' :'False'})
     except:
         return jsonify({'message': 'Server was unable to handle the request'}), 500
-
+'''
 
 '''
 @app.route('/users/updateProfile', methods=['POST'])
